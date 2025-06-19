@@ -27,14 +27,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com
 
-      # Create client/.env file
-      - echo Creating .env files...
-      - echo "VITE_BACKEND_URL_PROD=http://localhost:8787/api/v1" > client/.env
-
-      # Create server/.env file
-      - echo Creating .env files...
-      - echo 'DATABASE_URL="postgresql://user:password@db:5432/ratemycampus"' > server/.env
-      - echo 'DIRECT_URL="postgresql://user:password@db:5432/ratemycampus"' >> server/.
+     
  
 
 
