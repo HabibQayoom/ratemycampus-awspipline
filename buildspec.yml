@@ -34,9 +34,7 @@ phases:
       - echo Logging in to DockerHub...
       - echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
 
-      - echo Fetching DB secrets from SSM Parameter Store...
-      - export DATABASE_URL=$(aws ssm get-parameter --name "/ratemycampus/DATABASE_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
-      - export DIRECT_URL=$(aws ssm get-parameter --name "/ratemycampus/DATABASE_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
+     )
 
       - echo Getting Git commit hash for tagging...
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
