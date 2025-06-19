@@ -11,8 +11,10 @@ env:
 phases:
   pre_build:
     commands:
+
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com)
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com
+
 
       - echo Fetching DB secrets from SSM Parameter Store...
       - DATABASE_URL=$(aws ssm get-parameter --name "/ratemycampus/DATABASE_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
@@ -27,7 +29,7 @@ phases:
       - docker build -t $CLIENT_IMAGE:$IMAGE_TAG ./$CLIENT_DIR
 
       - echo Building server Docker image with secrets...
-      - docker build --build-arg DATABASE_URL=$DATABASE_URL --build-arg DIRECT_URL=$DIRECT_URL -t $SERVER_IMAGE:$IMAGE_TAG ./$SERVER_DIR
+      - docker build --build-arg DATABASE_URL=$DATABASE_URL --build-arg DIRECT_URL=$DATABASE_URL -t $SERVER_IMAGE:$IMAGE_TAG ./$SERVER_DIR
 
   post_build:
     commands:
