@@ -7,7 +7,7 @@ echo "Navigating to app directory..."
 cd /home/ubuntu/ratemycampus
 
 echo "Starting Docker containers using Docker Compose..."
-docker compose down || true  # Stop if already running
+
 docker compose pull           # Pull latest ECR images (if defined in docker-compose)
 docker compose up -d         # Run containers in detached mode
 
