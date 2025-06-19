@@ -7,6 +7,8 @@ env:
     AWS_REGION: "ap-southeast-2"
     CLIENT_IMAGE: "ratemycampus-client"
     SERVER_IMAGE: "ratemycampus-server"
+    DOCKERHUB_USERNAME: "habibqayoom6"
+    DOCKERHUB_PASSWORD: "dckr_pat_KGwOT_G6WC5hT5uI-AJxN0PcUng"
 
 phases:
   pre_build:
@@ -14,9 +16,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com
 
-      - echo Fetching DockerHub credentials from SSM...
-      - export DOCKERHUB_USERNAME=$(aws ssm get-parameter --name "/docker-username" --region $AWS_REGION --query Parameter.Value --output text)
-      - export DOCKERHUB_PASSWORD=$(aws ssm get-parameter --name "/docker-pass" --region $AWS_REGION --query Parameter.Value --output text)
+ 
 
 
       - echo Logging in to DockerHub...
