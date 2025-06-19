@@ -11,17 +11,21 @@ env:
 phases:
   pre_build:
     commands:
-
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com
+
+      - echo Fetching DockerHub credentials from SSM...
+      - export DOCKERHUB_USERNAME=$(aws ssm get-parameter --name "/docker-user" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
+      - export DOCKERHUB_PASSWORD=$(aws ssm get-parameter --name "/docker-pass" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
+
       - echo Logging in to DockerHub...
       - echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
 
-
       - echo Fetching DB secrets from SSM Parameter Store...
-      - DATABASE_URL=$(aws ssm get-parameter --name "/ratemycampus/DATABASE_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
-      - DIRECT_URL=$(aws ssm get-parameter --name "/ratemycampus/DATABASE_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
+      - export DATABASE_URL=$(aws ssm get-parameter --name "/ratemycampus/DATABASE_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
+      - export DIRECT_URL=$(aws ssm get-parameter --name "/ratemycampus/DATABASE_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
 
+      - echo Getting Git commit hash for tagging...
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
 
@@ -31,7 +35,10 @@ phases:
       - docker build -t $CLIENT_IMAGE:$IMAGE_TAG ./$CLIENT_DIR
 
       - echo Building server Docker image with secrets...
-      - docker build --build-arg DATABASE_URL=$DATABASE_URL --build-arg DIRECT_URL=$DATABASE_URL -t $SERVER_IMAGE:$IMAGE_TAG ./$SERVER_DIR
+      - docker build \
+          --build-arg DATABASE_URL=$DATABASE_URL \
+          --build-arg DIRECT_URL=$DATABASE_URL \
+          -t $SERVER_IMAGE:$IMAGE_TAG ./$SERVER_DIR
 
   post_build:
     commands:
