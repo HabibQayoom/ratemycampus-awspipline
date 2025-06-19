@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   db:
     image: postgres:latest
@@ -11,26 +12,18 @@ services:
       - db_data:/var/lib/postgresql/data
 
   server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+    image: 580420849247.dkr.ecr.ap-southeast-2.amazonaws.com/ratemycampus-server:latest
    
-    volumes:
-      - ./server:/app
-    env_file: ./server/.env
+    
     ports:
       - "8787:8787"
     depends_on:
       - db
 
   client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
+    image: 580420849247.dkr.ecr.ap-southeast-2.amazonaws.com/ratemycampus-client:latest
     restart: on-failure
-    volumes:
-      - ./client:/app
-    env_file: ./client/.env
+   
     ports:
       - "80:80"
     depends_on:
