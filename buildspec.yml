@@ -4,7 +4,7 @@ env:
   variables:
     CLIENT_DIR: "client"
     SERVER_DIR: "server"
-    AWS_REGION: "us-east-1"
+    AWS_REGION: "ap-southeast-2"
     CLIENT_IMAGE: "ratemycampus-client"
     SERVER_IMAGE: "ratemycampus-server"
 
@@ -18,7 +18,7 @@ phases:
 
       - echo Fetching DB secrets from SSM Parameter Store...
       - DATABASE_URL=$(aws ssm get-parameter --name "/ratemycampus/DATABASE_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
-      - DIRECT_URL=$(aws ssm get-parameter --name "/ratemycampus/DIRECT_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
+      - DIRECT_URL=$(aws ssm get-parameter --name "/ratemycampus/DATABASE_URL" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
 
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
