@@ -15,7 +15,7 @@ phases:
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - echo Fetching DockerHub credentials from SSM...
-      - export DOCKERHUB_USERNAME=$(aws ssm get-parameter --name "/docker-user" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
+      - export DOCKERHUB_USERNAME=$(aws ssm get-parameter --name "/docker-username" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
       - export DOCKERHUB_PASSWORD=$(aws ssm get-parameter --name "/docker-pass" --with-decryption --region $AWS_REGION --query Parameter.Value --output text)
 
       - echo Logging in to DockerHub...
