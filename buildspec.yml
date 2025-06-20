@@ -4,18 +4,18 @@ env:
   variables:
     CLIENT_DIR: "client"
     SERVER_DIR: "server"
-    AWS_REGION: "ap-southeast-2"
+    AWS_REGION: "xxxxx"
     CLIENT_IMAGE: "ratemycampus-client"
     SERVER_IMAGE: "ratemycampus-server"
-    DOCKERHUB_USERNAME: "habibqayoom6"
-    DOCKERHUB_PASSWORD: "dckr_pat_KGwOT_G6WC5hT5uI-AJxN0PcUng"
+    DOCKERHUB_USERNAME: "xxxxx"
+    DOCKERHUB_PASSWORD: "xxxxx"
 
 phases:
   pre_build:
     commands:
 
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin xxxxx.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - echo Logging in to DockerHub...
       - echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
@@ -35,12 +35,12 @@ phases:
   post_build:
     commands:
       - echo Tagging and pushing client image to ECR...
-      - docker tag $CLIENT_IMAGE:$IMAGE_TAG 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com/$CLIENT_IMAGE:$IMAGE_TAG
-      - docker push 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com/$CLIENT_IMAGE:$IMAGE_TAG
+      - docker tag $CLIENT_IMAGE:$IMAGE_TAG xxxxxx.dkr.ecr.$AWS_REGION.amazonaws.com/$CLIENT_IMAGE:$IMAGE_TAG
+      - docker push 5xxxxx.dkr.ecr.$AWS_REGION.amazonaws.com/$CLIENT_IMAGE:$IMAGE_TAG
 
       - echo Tagging and pushing server image to ECR...
-      - docker tag $SERVER_IMAGE:$IMAGE_TAG 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com/$SERVER_IMAGE:$IMAGE_TAG
-      - docker push 580420849247.dkr.ecr.$AWS_REGION.amazonaws.com/$SERVER_IMAGE:$IMAGE_TAG
+      - docker tag $SERVER_IMAGE:$IMAGE_TAG xxxxx.dkr.ecr.$AWS_REGION.amazonaws.com/$SERVER_IMAGE:$IMAGE_TAG
+      - docker push xxxxxxx.dkr.ecr.$AWS_REGION.amazonaws.com/$SERVER_IMAGE:$IMAGE_TAG
 
 artifacts:
   files: '**/*'
