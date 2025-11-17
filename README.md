@@ -1,45 +1,50 @@
-RateMyCampus - AWS CI/CD Pipeline
-Overview
+# RateMyCampus - AWS CI/CD Pipeline
+
+## Overview
 Automated CI/CD pipeline for RateMyCampus application using AWS native services, enabling continuous integration and deployment with automated testing and infrastructure provisioning.
-DevOps Architecture
-Pipeline Components
 
-Source Control: GitHub integration with webhook triggers
-Build & Test: AWS CodeBuild for automated builds and unit tests
-Artifact Management: AWS S3 for build artifacts storage
-Deployment: AWS CodeDeploy for automated application deployment
-Orchestration: AWS CodePipeline for end-to-end workflow automation
+## DevOps Architecture
 
-Infrastructure
+### Pipeline Components
+- **Source Control**: GitHub integration with webhook triggers
+- **Build & Test**: AWS CodeBuild for automated builds and unit tests
+- **Artifact Management**: AWS S3 for build artifacts storage
+- **Deployment**: AWS CodeDeploy for automated application deployment
+- **Orchestration**: AWS CodePipeline for end-to-end workflow automation
 
-Compute: EC2 instances with Auto Scaling Groups
-Networking: VPC with public/private subnets, NAT Gateway
-Security: IAM roles, Security Groups, SSL/TLS certificates
-Monitoring: CloudWatch for logs and metrics
+### Infrastructure
+- **Compute**: EC2 instances with Auto Scaling Groups
+- **Networking**: VPC with public/private subnets, NAT Gateway
+- **Security**: IAM roles, Security Groups, SSL/TLS certificates
+- **Monitoring**: CloudWatch for logs and metrics
 
-Pipeline Workflow
+## Pipeline Workflow
+
+```
 GitHub Push → CodePipeline Trigger → CodeBuild (Compile & Test) 
 → S3 Artifact Storage → CodeDeploy → EC2 Deployment → Health Check
-Key Features
+```
 
-✅ Automated build and deployment on git push
-✅ Multi-stage pipeline (Dev/Staging/Prod)
-✅ Automated rollback on deployment failure
-✅ Infrastructure as Code using CloudFormation
-✅ Blue-Green deployment strategy
-✅ Automated testing integration
-✅ CloudWatch monitoring and alerting
+## Key Features
+- ✅ Automated build and deployment on git push
+- ✅ Multi-stage pipeline (Dev/Staging/Prod)
+- ✅ Automated rollback on deployment failure
+- ✅ Infrastructure as Code using CloudFormation
+- ✅ Blue-Green deployment strategy
+- ✅ Automated testing integration
+- ✅ CloudWatch monitoring and alerting
 
-Technologies Used
+## Technologies Used
+- **AWS Services**: CodePipeline, CodeBuild, CodeDeploy, EC2, S3, CloudFormation, IAM, VPC, CloudWatch
+- **Version Control**: GitHub
+- **Configuration**: YAML, JSON
+- **Scripting**: Bash, Python
 
-AWS Services: CodePipeline, CodeBuild, CodeDeploy, EC2, S3, CloudFormation, IAM, VPC, CloudWatch
-Version Control: GitHub
-Configuration: YAML, JSON
-Scripting: Bash, Python
+## Pipeline Configuration
 
-Pipeline Configuration
-Build Specification (buildspec.yml)
-yamlversion: 0.2
+### Build Specification (`buildspec.yml`)
+```yaml
+version: 0.2
 phases:
   install:
     runtime-versions:
@@ -54,40 +59,38 @@ phases:
 artifacts:
   files:
     - '**/*'
-Deployment Specification (appspec.yml)
+```
 
-Application stop hooks
-Before/After install scripts
-Health check validation
-Traffic shifting configuration
+### Deployment Specification (`appspec.yml`)
+- Application stop hooks
+- Before/After install scripts
+- Health check validation
+- Traffic shifting configuration
 
-Deployment Strategy
+## Deployment Strategy
+- **Blue-Green Deployment**: Zero-downtime deployments
+- **Health Checks**: Application health validation before traffic shift
+- **Automatic Rollback**: Triggers on deployment failure or health check issues
 
-Blue-Green Deployment: Zero-downtime deployments
-Health Checks: Application health validation before traffic shift
-Automatic Rollback: Triggers on deployment failure or health check issues
+## Monitoring & Alerts
+- Build status notifications
+- Deployment success/failure alerts
+- Application performance metrics
+- Error rate monitoring
 
-Monitoring & Alerts
+## Security Best Practices
+- IAM role-based access control
+- Encrypted artifacts in S3
+- Secrets stored in AWS Systems Manager Parameter Store
+- Security groups with least privilege access
 
-Build status notifications
-Deployment success/failure alerts
-Application performance metrics
-Error rate monitoring
+## Cost Optimization
+- Auto-scaling based on traffic
+- Scheduled start/stop for non-production environments
+- Reserved instances for production
+- S3 lifecycle policies for artifact cleanup
 
-Security Best Practices
+---
 
-IAM role-based access control
-Encrypted artifacts in S3
-Secrets stored in AWS Systems Manager Parameter Store
-Security groups with least privilege access
-
-Cost Optimization
-
-Auto-scaling based on traffic
-Scheduled start/stop for non-production environments
-Reserved instances for production
-S3 lifecycle policies for artifact cleanup
-
-
-Project Type: DevOps CI/CD Implementation
-Focus: AWS Native Services, Automated Deployment, Infrastructure Automation
+**Project Type**: DevOps CI/CD Implementation  
+**Focus**: AWS Native Services, Automated Deployment, Infrastructure Automation
